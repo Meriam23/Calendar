@@ -7,6 +7,8 @@ const userLabel = document.getElementById('userLabel');
 const userAvatar = document.getElementById('userAvatar');
 
 let currentUser = null; 
+let db = null;
+let unsubscribeTasks = null; // pour arrêter l'écoute quand on logout
 
 function initAuth() {
   const fb = window._fb;
@@ -29,6 +31,7 @@ function initAuth() {
   } = fb;
 
   const auth = getAuth();
+  db = fb.getFirestore(fb.app);
 
   loginBtn.onclick = async () => {
     const provider = new GoogleAuthProvider();
@@ -60,24 +63,18 @@ function initAuth() {
 
   loginBtn.style.display = user ? 'none' : 'inline-flex';
   logoutBtn.style.display = user ? 'inline-flex' : 'none';
+  userLabel.textContent = user ? (user.displayName || user.email) : 'Invité';
 
   if (user) {
-    const fullName = user.displayName || '';
-    const firstName = fullName.split(' ')[0];
-
-    userLabel.textContent = firstName || user.email;
-
-    if (user.photoURL && userAvatar) {
-      userAvatar.src = user.photoURL;
-      userAvatar.hidden = false;
-    }
+    startRealtimeSync(user.uid); // ✅ live sync
   } else {
-    userLabel.textContent = 'Invité';
-    if (userAvatar) userAvatar.hidden = true;
-  }
+    // logout: stop live sync
+    if (typeof unsubscribeTasks === "function") unsubscribeTasks();
+    unsubscribeTasks = null;
 
-  await loadTasksFromCloudOrLocal();
-  renderAll();
+    tasks = loadTasks(); // retour local
+    renderAll();
+  }
 });
 
   return true;
@@ -222,19 +219,61 @@ async function loadTasksFromCloudOrLocal() {
   return tasks;
 }
 
+
+function tasksPath(uid) {
+  return `users/${uid}/tasks`;
+}
+
+function startRealtimeSync(uid) {
+  if (!db) return;
+
+  // stop ancien listener si existait
+  if (typeof unsubscribeTasks === "function") unsubscribeTasks();
+
+  const {
+    collection, query, orderBy, onSnapshot
+  } = window._fb;
+
+  const colRef = collection(db, tasksPath(uid));
+  const q = query(colRef, orderBy("createdAt", "desc"));
+
+  unsubscribeTasks = onSnapshot(q, (snap) => {
+    tasks = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderAll();
+  }, (err) => {
+    console.error("Firestore onSnapshot error:", err);
+    showToast(err?.code || "Erreur sync cloud");
+  });
+}
+
+
+
+
+
 // CRUD
-function addTask({ title, date, notes, color }) {
-  tasks.unshift({
-    id: uid(),
+async function addTask({ title, date, notes, color }) {
+  const newTask = {
     title: title.trim(),
-    date, // YYYY-MM-DD
+    date,
     notes: (notes || '').trim(),
     color,
     done: false,
     createdAt: Date.now()
-  });
+  };
+
+  // ✅ connecté -> Firestore
+  if (currentUser && db) {
+    const { doc, setDoc } = window._fb;
+    const id = uid();
+    await setDoc(doc(db, `${tasksPath(currentUser.uid)}/${id}`), newTask);
+    showMascot();
+    return;
+  }
+
+  // ✅ local
+  tasks.unshift({ id: uid(), ...newTask });
   saveTasks();
-  showMascot();  
+  showMascot();
 }
 
 
@@ -242,15 +281,37 @@ function addTask({ title, date, notes, color }) {
 
 
 
-function toggleDone(id) {
-  tasks = tasks.map(t => t.id === id ? { ...t, done: !t.done } : t);
+async function toggleDone(id) {
+  const t = tasks.find(x => x.id === id);
+  if (!t) return;
+
+  if (currentUser && db) {
+    const { doc, updateDoc } = window._fb;
+    await updateDoc(doc(db, `${tasksPath(currentUser.uid)}/${id}`), { done: !t.done });
+    return;
+  }
+
+  tasks = tasks.map(x => x.id === id ? { ...x, done: !x.done } : x);
   saveTasks();
 }
 
-function deleteTask(id) {
+
+
+
+
+async function deleteTask(id) {
+  if (currentUser && db) {
+    const { doc, deleteDoc } = window._fb;
+    await deleteDoc(doc(db, `${tasksPath(currentUser.uid)}/${id}`));
+    return;
+  }
+
   tasks = tasks.filter(t => t.id !== id);
   saveTasks();
 }
+
+
+
 
 function openTask(id){
   const t = tasks.find(x => x.id === id);
@@ -492,9 +553,13 @@ function renderList() {
     doneBtn.type = 'button';
     doneBtn.className = 'smallBtn done';
     doneBtn.textContent = t.done ? 'Undone' : 'Done';
-    doneBtn.addEventListener('click', () => {
-      toggleDone(t.id);
-      renderAll();
+    doneBtn.addEventListener('click', async () => {
+    await toggleDone(t.id);
+    });
+
+    delBtn.addEventListener('click', async () => {
+    await deleteTask(t.id);
+    showToast('Tâche supprimée');
     });
 
     const goBtn = document.createElement('button');
