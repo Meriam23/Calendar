@@ -435,7 +435,7 @@ function renderList() {
       li.innerHTML = `
         <div>
           <div class="taskTitle">Rien de prévu ici! ✨</div>
-          <div class="taskDate">Ajoute une tâche juste en dessous 💛</div>
+          <div class="taskDate">Ajoute une tâche 💛</div>
         </div>
       `;
     } else {
