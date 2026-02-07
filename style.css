@@ -748,3 +748,14 @@ input:focus, select:focus{
 .grid.dayMode .panel-form{
   order: 2;
 }
+
+
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-left: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
