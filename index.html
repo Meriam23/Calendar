@@ -194,6 +194,40 @@
   };
 </script>
 
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+  import {
+    getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, signOut, onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+  import {
+    getFirestore,
+    doc, setDoc, updateDoc, deleteDoc,
+    collection, query, orderBy, onSnapshot
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB_Olqggt-Cz72SINNgvdlWLcT2F6MfAoc",
+    authDomain: "calendar-bf99a.firebaseapp.com",
+    projectId: "calendar-bf99a",
+    storageBucket: "calendar-bf99a.firebasestorage.app",
+    messagingSenderId: "194997124604",
+    appId: "1:194997124604:web:d719024bf9040bbc368679"
+  };
+  const app = initializeApp(firebaseConfig);
+
+  window._fb = {
+    // auth
+    getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, signOut, onAuthStateChanged,
+    // firestore
+    getFirestore, doc, setDoc, updateDoc, deleteDoc, collection, query, orderBy, onSnapshot,
+    // app (utile)
+    app
+  };
+</script>
+	
+
 <!-- IMPORTANT: app.js en module aussi -->
 <script type="module" src="app.js"></script>
 	
