@@ -1,0 +1,750 @@
+/* style.css */
+:root{
+  --bg: #faf7ff;
+  --panel: rgba(255,255,255,0.75);
+  --border: rgba(30, 20, 40, 0.10);
+  --text: #1f2030;
+  --muted: rgba(31,32,48,0.65);
+  --shadow: 0 12px 30px rgba(20, 12, 40, 0.10);
+
+  --radius: 18px;
+  --radius-sm: 12px;
+
+  --mint: #c8f1e4;
+  --lavender: #e6dbff;
+  --peach: #ffd9c8;
+  --sky: #cfe9ff;
+  --lemon: #fff3bf;
+  --rose: #ffd1ea;
+
+  --primary: #6e6cf7;
+  --danger: #ff5b7a;
+}
+
+*{ box-sizing: border-box; }
+html, body { height: 100%; }
+body{
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  color: var(--text);
+  background:
+    radial-gradient(900px 500px at 15% 10%, rgba(110,108,247,0.20), transparent 60%),
+    radial-gradient(900px 500px at 85% 15%, rgba(255, 91, 122, 0.16), transparent 55%),
+    radial-gradient(900px 500px at 50% 85%, rgba(124, 230, 200, 0.18), transparent 60%),
+    var(--bg);
+}
+
+.app{
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 22px 16px 36px;
+}
+
+.topbar{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(14px);
+}
+
+h1{ margin: 0; font-size: 1.3rem; }
+.subtitle{ margin: 4px 0 0; color: var(--muted); font-size: 0.95rem; }
+
+
+.grid{
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 16px;
+}
+
+
+
+.panel{
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(14px);
+  padding: 16px;
+}
+
+.panel h2{
+  margin: 0 0 10px;
+  font-size: 1.05rem;
+}
+
+.form{ display: grid; gap: 10px; }
+.field{ display: grid; gap: 6px; }
+.field span{ font-size: 0.9rem; color: var(--muted); }
+input, select{
+  width: 100%;
+  border: 1px solid rgba(0,0,0,0.10);
+  background: rgba(255,255,255,0.9);
+  border-radius: 12px;
+  padding: 11px 12px;
+  font-size: 0.98rem;
+  outline: none;
+}
+input:focus, select:focus{
+  border-color: rgba(110,108,247,0.5);
+  box-shadow: 0 0 0 4px rgba(110,108,247,0.15);
+}
+
+.actions{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.btn{
+  border: 0;
+  border-radius: 14px;
+  padding: 11px 12px;
+  cursor: pointer;
+  font-weight: 650;
+  font-size: 0.95rem;
+  transition: transform 0.05s ease, opacity 0.2s ease;
+}
+.btn:active{ transform: translateY(1px); }
+
+.btn-primary{
+  background: var(--primary);
+  color: white;
+}
+.btn-danger{
+  background: var(--danger);
+  color: white;
+}
+.btn-ghost{
+  background: rgba(255,255,255,0.7);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.hint{
+  margin: 6px 0 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* Calendar */
+.panel-calendar{ padding: 14px; }
+.calendarHeader{
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.monthTitle{
+  text-align: center;
+  font-weight: 750;
+  letter-spacing: 0.2px;
+}
+.iconBtn{
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.7);
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 0;
+}
+
+.weekdays{
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  padding: 0 4px 8px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.calendarGrid{
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+  padding: 4px;
+  width: 100%;
+}
+
+.day{
+  min-height: 92px;
+  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: rgba(255,255,255,0.72);
+  padding: 10px 10px 8px;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  width: 100%;
+  min-width: 0;
+  
+}
+
+
+
+
+
+.calendarHeader,
+.calendarGrid,
+.day {
+  box-sizing: border-box;
+}
+
+
+.day.isOutside{
+  opacity: 0.45;
+}
+.day.isToday{
+  outline: 3px solid rgba(110,108,247,0.35);
+}
+.dayNum{
+  font-weight: 800;
+  font-size: 0.95rem;
+  opacity: 0.95;
+}
+.badgeRow{
+  margin-top: 8px;
+  display: grid;
+  gap: 6px;
+}
+.badge{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 7px 9px;
+  border-radius: 12px;
+  font-size: 0.82rem;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+.badgeTitle{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.badge button{
+  border: 0;
+  background: rgba(255,255,255,0.55);
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 5px 7px;
+  font-weight: 800;
+}
+
+/* List */
+/* List */
+.panel-list{}
+
+/* Desktop: la liste prend la place du calendrier (colonne de droite) */
+@media (min-width: 951px){
+  .panel-form{ grid-column: 1; grid-row: 1; }
+  .panel-calendar{ grid-column: 2; grid-row: 1; }
+  .panel-list{ grid-column: 2; grid-row: 1; }
+}
+
+/* Mobile: tout s'empile, la liste revient en dessous */
+@media (max-width: 950px){
+  .panel-form{ grid-column: 1; }
+  .panel-calendar{ grid-column: 1; }
+  .panel-list{ grid-column: 1; }
+}
+.listHeader{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.chip{
+  min-width: 34px;
+  height: 28px;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.75);
+  font-weight: 800;
+}
+
+.filters{
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.pill{
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.65);
+  padding: 8px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 700;
+}
+.pill.active{
+  border-color: rgba(110,108,247,0.45);
+  box-shadow: 0 0 0 4px rgba(110,108,247,0.12);
+}
+
+.taskList{
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+
+.taskCard{
+  display: grid;
+  grid-template-columns: 1fr 170px; /* largeur fixe pour les boutons */
+  gap: 10px;
+  align-items: center;
+
+  padding: 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: rgba(255,255,255,0.78);
+}
+
+
+
+.taskMeta{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.dot{
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,0.10);
+}
+.taskTitle{
+  font-weight: 850;
+}
+.taskDate{
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.taskNotes{
+  width: 100%;
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+
+.taskActions{
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+
+.smallBtn{
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.7);
+  border-radius: 12px;
+  cursor: pointer;
+  padding: 8px 10px;
+  font-weight: 800;
+}
+.smallBtn.done{
+  border-color: rgba(110,108,247,0.35);
+}
+.taskCard.isDone{
+  opacity: 0.65;
+}
+.taskCard.isDone .taskTitle{
+  text-decoration: line-through;
+}
+
+/* Color classes */
+.c-mint{ background: var(--mint); }
+.c-lavender{ background: var(--lavender); }
+.c-peach{ background: var(--peach); }
+.c-sky{ background: var(--sky); }
+.c-lemon{ background: var(--lemon); }
+.c-rose{ background: var(--rose); }
+
+.toast{
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(30, 20, 40, 0.82);
+  color: white;
+  font-weight: 700;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.toast.show{ opacity: 1; }
+
+/* Responsive */
+@media (max-width: 950px){
+  .grid{ grid-template-columns: 1fr; }
+  .panel-list{ grid-column: auto; }
+}
+
+
+
+
+/* --- FIX tasks qui dépassent dans une case du calendrier --- */
+
+/* La case ne doit jamais laisser son contenu dépasser */
+.day{
+  overflow: hidden;
+}
+
+/* Zone qui contient les badges */
+.badgeRow{
+  min-width: 0;
+  margin-top: 6px;
+  display: grid;
+  gap: 6px;
+}
+
+/* ===== Calendar task bars ===== */
+
+.badge{
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  padding: 6px 8px;
+  border-radius: 8px;
+
+  font-size: 0.78rem;
+  font-weight: 600;
+
+  color: #1f2030;
+  border: 1px solid rgba(0,0,0,0.06);
+
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* Texte plus lisible */
+.badgeTitle{
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Bouton X plus compact et qui ne pousse pas le badge */
+.badge button{
+  flex: 0 0 auto;
+  padding: 4px 6px;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+/* Si tu veux que chaque badge reste sur 1 ligne (pas de wrap) mais coupe avec "...",
+   remplace "white-space: normal" par "white-space: nowrap" dans .badgeTitle */
+
+
+
+.taskCard.isActive{
+  outline: 3px solid rgba(110,108,247,0.35);
+  box-shadow: 0 12px 30px rgba(110,108,247,0.18);
+}
+
+
+
+
+.badge{
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.badge:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.14);
+}
+
+
+
+/* ===== Calendar task bars (lisibles) ===== */
+
+.day{ overflow: hidden; }
+
+.badgeRow{
+  margin-top: 6px;
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+/* Barre */
+.badge{
+  width: 100%;
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  padding: 6px 8px;
+  border-radius: 8px;
+
+  font-size: 0.78rem;
+  font-weight: 650;
+
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+
+  cursor: pointer;
+}
+
+/* Texte: prend toute la place */
+.badgeTitle{
+  flex: 1;              /* IMPORTANT: prend l’espace */
+  min-width: 0;
+  white-space: nowrap;  /* une ligne */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+
+
+/* ===== Form collapsible ===== */
+
+.grid.isFormHidden{
+  grid-template-columns: 1fr !important; /* pleine largeur */
+}
+
+.grid.isFormHidden .panel-form{
+  display: none !important;
+}
+
+/* Quand le form est caché, le panneau à droite occupe toute la ligne */
+.grid.isFormHidden .panel-calendar,
+.grid.isFormHidden .panel-list{
+  grid-column: 1 / -1 !important;
+}
+
+
+.panel-calendar .badge{
+  font-size: 0.55rem;
+}
+
+/* FIX input date qui déborde */
+.panel-form input[type="date"]{
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+
+.panel-form input,
+.panel-form select{
+  width: 90%;
+  max-width: 90%;
+  box-sizing: border-box;
+}
+
+
+/* ===== FIX iOS/Safari: texte de input[type="date"] qui déborde ===== */
+.panel-form input[type="date"]{
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+
+  /* Empêche l'affichage centré qui déborde souvent sur iOS */
+  text-align: left;
+
+  /* Laisse de la place à l'icône / UI natif à droite */
+  padding-right: 2.4rem;
+}
+
+/* WebKit (Safari/Chrome iOS): contrôle du texte interne de la date */
+.panel-form input[type="date"]::-webkit-date-and-time-value{
+  text-align: left;
+  max-width: 100%;
+}
+
+/* Optionnel: rend l'icône un peu moins "envahissante" */
+.panel-form input[type="date"]::-webkit-calendar-picker-indicator{
+  opacity: 0.7;
+}
+
+
+
+
+
+/* ===== Topbar stable (CSS only) ===== */
+
+/* On passe la topbar en grille: gauche | centre | droite */
+.topbar{
+  display: grid !important;
+  grid-template-columns: 1fr auto 1fr !important;
+  align-items: center !important;
+  gap: 14px !important;
+}
+
+/* Le bloc titre (le 1er div à l'intérieur de la topbar dans ton HTML actuel)
+   reste centré et ne bouge plus */
+.topbar > div:first-child{
+  grid-column: 2 !important;
+  justify-self: center !important;
+  text-align: center !important;
+}
+
+/* Les boutons (tous les boutons directs dans .topbar) */
+.topbar > button{
+  grid-row: 1 !important;
+}
+
+/* Bouton "New task" (1er bouton) à gauche */
+.topbar > button:nth-of-type(1){
+  grid-column: 1 !important;
+  justify-self: start !important;
+}
+
+/* Bouton "Vue liste / Vue calendrier" (2e bouton) à droite */
+.topbar > button:nth-of-type(2){
+  grid-column: 3 !important;
+  justify-self: end !important;
+}
+
+/* Stabilise la largeur des boutons pour éviter les micro-sauts */
+.topbar > button{
+  min-width: 120px;
+}
+
+
+
+/* ===== FIX précis input Date qui dépasse ===== */
+
+/* Le wrapper du champ ne doit jamais dépasser */
+.panel-form .field{
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* L’input date s’adapte AU wrapper */
+.panel-form .field input[type="date"]{
+  width: 75%;
+  max-width: 100%;
+  min-width: 0;
+
+  box-sizing: border-box;
+
+  /* évite que l’UI interne pousse */
+  padding-right: 2.2rem;
+}
+
+
+.panel-form{
+  overflow-x: hidden;
+}
+
+
+
+
+
+
+
+/* Mascot + Animation de la mascot :D */
+
+
+.mascot-overlay{
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 400ms ease;
+  z-index: 9999;  
+}
+
+.mascot-overlay.is-visible{ 
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+.mascot-card{
+  background: rgba(255,255,255,0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 24px;
+  padding: 50px 50px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+} 
+ 
+
+.mascot{
+  width: 100px;   
+  height: auto;
+  pointer-events: none;
+  transform-origin: bottom center;
+}
+
+.mascot-text {
+    font-size: 18px; 
+} 
+
+
+@keyframes mascotDance {
+  0%   { transform: translateY(0) rotate(0deg); }
+  20%  { transform: translateY(-0px) rotate(-10deg); }
+  40%  { transform: translateY(0) rotate(10deg); }
+  60%  { transform: translateY(-00px) rotate(-10deg); }
+  80%  { transform: translateY(0) rotate(10deg); }
+  100% { transform: translateY(0) rotate(10deg); }
+} 
+
+.mascot.is-dancing{
+  animation: mascotDance 2500ms ease-in-out;
+}
+
+
+
+
+/* Quand on est en mode jour: 1 colonne, la liste puis le form dessous */
+.grid.dayMode{
+  grid-template-columns: 1fr;
+}
+
+.grid.dayMode .panel-list{
+  order: 1;
+}
+
+.grid.dayMode .panel-form{
+  order: 2;
+}

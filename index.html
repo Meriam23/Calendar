@@ -1,0 +1,168 @@
+<!-- index.html -->
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pastel Todo Calendar</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+
+						<button id="loginBtn" class="btn btn-ghost" type="button">Se connecter</button>
+<button id="logoutBtn" class="btn btn-ghost" type="button" style="display:none;">Se déconnecter</button>
+
+  <div class="app">
+    <header class="topbar">
+	<!-- <button id="loginBtn" class="btn btn-ghost" type="button">Se connecter</button>
+<button id="logoutBtn" class="btn btn-ghost" type="button" style="display:none;">Se déconnecter</button> -->
+		
+		<button id="toggleFormBtn" class="btn btn-ghost" type="button" aria-pressed="true">
+  New task
+</button>
+		
+		
+      <div>
+		
+         <h1>Todo + Calendar</h1>
+        <p class="subtitle">Bienvenue <span id="userLabel" class="userLabel"></span>.</p>
+      </div>
+      <button id="toggleViewBtn" class="btn btn-ghost" type="button" aria-pressed="false">
+        Vue calendrier
+      </button>
+	
+		
+    </header>
+
+    <main class="grid">
+      <!-- FORM -->
+      <section class="panel panel-form">
+        <h2>Nouvelle tâche</h2>
+
+        <form id="taskForm" class="form">
+          <label class="field">
+            <span>Titre</span>
+            <input id="titleInput" type="text" placeholder="Ex: Appeler le dentiste" required maxlength="80" />
+          </label>
+
+          <label class="field">
+            <span>Date</span>
+            <input id="dateInput" type="date" required />
+          </label>
+
+          <label class="field">
+            <span>Couleur</span>
+            <select id="colorInput">
+              <option value="mint">Personnel</option>
+              <option value="lavender">Travail</option>
+              <option value="peach">Vacances</option>
+              <option value="sky">Urgent</option>
+              <option value="lemon">Autres 1</option>
+              <option value="rose">Autres 2</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Notes (optionnel)</span>
+            <input id="notesInput" type="text" placeholder="Ex: prendre la carte vitale" maxlength="120" />
+          </label>
+
+          <div class="actions">
+            <button class="btn btn-primary" type="submit">Ajouter</button>
+            <button id="clearAllBtn" class="btn btn-danger" type="button">Tout effacer</button>
+          </div>
+
+          <p class="hint" id="dailyQuote">Citation du Jour</p>
+        </form>
+      </section>
+
+      <!-- CALENDAR -->
+      <section class="panel panel-calendar" id="calendarPanel">
+        <div class="calendarHeader">
+          <button id="prevMonthBtn" class="iconBtn" type="button" aria-label="Mois précédent">‹</button>
+          <div class="monthTitle" id="monthTitle">Mois</div>
+          <button id="nextMonthBtn" class="iconBtn" type="button" aria-label="Mois suivant">›</button>
+        </div>
+
+        <div class="weekdays">
+          <div>Lun</div><div>Mar</div><div>Mer</div><div>Jeu</div><div>Ven</div><div>Sam</div><div>Dim</div>
+        </div>
+
+        <div class="calendarGrid" id="calendarGrid" aria-label="Calendrier"></div>
+      </section>
+
+      <!-- LIST -->
+      <section class="panel panel-list" id="listPanel">
+        <div class="listHeader">
+          <h2 id="listTitle">Toutes les tâches</h2>
+          <div class="chip" id="countChip">0</div>
+        </div>
+
+        <div class="filters">
+          <button class="pill active" data-filter="all" type="button">Toutes</button>
+          <button class="pill" data-filter="open" type="button">À faire</button>
+          <button class="pill" data-filter="done" type="button">Faites</button>
+        </div>
+
+        <ul class="taskList" id="taskList" aria-label="Liste des tâches"></ul>
+      </section>
+    </main>
+
+    
+
+
+<!-- Animation :D -->
+<div id="mascotOverlay" class="mascot-overlay" aria-hidden="true">
+  <div class="mascot-card">
+    <div class="mascot-wrap">
+      <img
+        id="mascot"
+        class="mascot"
+        src="mascot.gif"
+        alt=""
+        aria-hidden="true"
+      />
+    </div>
+    <div class="mascot-text">Task added successfully!</div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+	<!-- Toast -->
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </div>
+
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyB_Olqggt-Cz72SINNgvdlWLcT2F6MfAoc",
+    authDomain: "calendar-bf99a.firebaseapp.com",
+    projectId: "calendar-bf99a",
+    storageBucket: "calendar-bf99a.firebasestorage.app",
+    messagingSenderId: "194997124604",
+    appId: "1:194997124604:web:d719024bf9040bbc368679",
+    measurementId: "G-KJPJ8MHJC6"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+
+  <script src="app.js"></script>
+</body>
+</html>
