@@ -1,54 +1,58 @@
-// app.js
-'use strict';
-
-console.log("app.js chargé ");
+console.log("app.js chargé ✅");
 
 // Elements auth
 const loginBtn = document.getElementById('loginBtn');
 const logoutBtn = document.getElementById('logoutBtn');
 const userLabel = document.getElementById('userLabel');
 
-let currentUser = null;
+let currentUser = null; 
 
-// --- Firebase (safe) ---
-const fb = window._fb;
+function initAuth() {
+  const fb = window._fb;
 
-if (!fb) {
-  console.warn("Firebase non chargé: window._fb est undefined. Auth désactivé.");
-
-  // On garde les boutons visibles, mais on les désactive
-  if (loginBtn) {
-    loginBtn.disabled = true;
-    loginBtn.title = "Firebase pas prêt (clés / serveur local)";
-    loginBtn.style.opacity = "0.6";
-    loginBtn.style.pointerEvents = "auto";
+  if (!fb) {
+    console.warn("Firebase pas encore prêt…");
+    if (userLabel) userLabel.textContent = "mode local";
+    return false;
   }
 
-  if (logoutBtn) {
-    logoutBtn.disabled = true;
-    logoutBtn.style.opacity = "0.6";
+  if (!loginBtn || !logoutBtn || !userLabel) {
+    console.error("Auth: boutons ou label manquants dans le HTML");
+    return true;
   }
 
-  if (userLabel) userLabel.textContent = "mode local";
-} else {
+  console.log("Firebase détecté ✅");
+
   const {
     getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, signOut, onAuthStateChanged
   } = fb;
 
   const auth = getAuth();
 
-  loginBtn.addEventListener('click', async () => {
+  loginBtn.onclick = async () => {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
     } catch (e) {
-      await signInWithRedirect(auth, provider);
-    }
-  });
+  console.error("signInWithPopup error:", e);
+  showToast(e?.code || "Popup bloquée");
+  try {
+    await signInWithRedirect(auth, provider);
+  } catch (e2) {
+    console.error("signInWithRedirect error:", e2);
+    showToast(e2?.code || "Erreur de connexion");
+    alert(e2?.message || "Erreur de connexion Google");
+  }
+}
+  };
 
-  logoutBtn.addEventListener('click', async () => {
-    await signOut(auth);
-  });
+  logoutBtn.onclick = async () => {
+    try {
+      await signOut(auth);
+    } catch (e) {
+      console.error("signOut error:", e);
+    }
+  };
 
   onAuthStateChanged(auth, async (user) => {
     currentUser = user || null;
@@ -60,7 +64,15 @@ if (!fb) {
     await loadTasksFromCloudOrLocal();
     renderAll();
   });
+
+  return true;
 }
+
+// on attend un peu si _fb n’est pas prêt tout de suite
+(function waitForFirebase() {
+  if (initAuth()) return;
+  setTimeout(waitForFirebase, 50);
+})();
 
 
 
@@ -126,7 +138,7 @@ if (toggleFormBtn){
 
 
 taskForm.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') {
+  if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
     e.preventDefault();
   }
 });
