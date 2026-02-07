@@ -9,6 +9,28 @@
 </head>
 <body>
 
+<div class="auth-zone">
+	<span class="userLabel" id="userLabel"></span>
+  <img
+    id="userAvatar"
+    class="user-avatar"
+    alt="Avatar utilisateur"
+    hidden
+  />
+
+  <button id="loginBtn" class="btn btn-ghost" type="button">
+    Se connecter
+  </button>
+
+  <button
+    id="logoutBtn"
+    class="btn btn-ghost"
+    type="button"
+    style="display:none;"
+  >
+    Se déconnecter
+  </button>
+</div>
 
 						
 
@@ -24,22 +46,14 @@
       <div>
 		
          <h1>Todo + Calendar</h1>
-        <p class="subtitle">Bienvenue <span id="userLabel" class="userLabel"></span>.</p>
+        <p class="subtitle">Bienvenue</p>
       </div>
 
-		<img
-  id="userAvatar"
-  class="user-avatar"
-  alt="Avatar utilisateur"
-  hidden
-/>
 		
       <button id="toggleViewBtn" class="btn btn-ghost" type="button" aria-pressed="false">
         Vue calendrier
       </button>
 
-		<button id="loginBtn" class="btn btn-ghost" type="button">Se connecter</button>
-<button id="logoutBtn" class="btn btn-ghost" type="button" style="display:none;">Se déconnecter</button>
 	
 		
     </header>
