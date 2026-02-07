@@ -10,13 +10,11 @@
 <body>
 
 
-						<button id="loginBtn" class="btn btn-ghost" type="button">Se connecter</button>
-<button id="logoutBtn" class="btn btn-ghost" type="button" style="display:none;">Se déconnecter</button>
+						
 
   <div class="app">
     <header class="topbar">
-	<!-- <button id="loginBtn" class="btn btn-ghost" type="button">Se connecter</button>
-<button id="logoutBtn" class="btn btn-ghost" type="button" style="display:none;">Se déconnecter</button> -->
+	
 		
 		<button id="toggleFormBtn" class="btn btn-ghost" type="button" aria-pressed="true">
   New task
@@ -31,6 +29,9 @@
       <button id="toggleViewBtn" class="btn btn-ghost" type="button" aria-pressed="false">
         Vue calendrier
       </button>
+
+		<button id="loginBtn" class="btn btn-ghost" type="button">Se connecter</button>
+<button id="logoutBtn" class="btn btn-ghost" type="button" style="display:none;">Se déconnecter</button>
 	
 		
     </header>
@@ -140,9 +141,7 @@
   </div>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-analytics.js";
-
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
   import {
     getAuth,
     GoogleAuthProvider,
@@ -150,7 +149,7 @@
     signInWithRedirect,
     signOut,
     onAuthStateChanged
-  } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyB_Olqggt-Cz72SINNgvdlWLcT2F6MfAoc",
@@ -158,14 +157,11 @@
     projectId: "calendar-bf99a",
     storageBucket: "calendar-bf99a.firebasestorage.app",
     messagingSenderId: "194997124604",
-    appId: "1:194997124604:web:d719024bf9040bbc368679",
-    measurementId: "G-KJPJ8MHJC6"
+    appId: "1:194997124604:web:d719024bf9040bbc368679"
   };
 
-  const app = initializeApp(firebaseConfig);
-  getAnalytics(app);
+  initializeApp(firebaseConfig);
 
-  // IMPORTANT: on expose les fonctions pour app.js
   window._fb = {
     getAuth,
     GoogleAuthProvider,
@@ -176,6 +172,8 @@
   };
 </script>
 
-  <script src="app.js"></script>
+<!-- IMPORTANT: app.js en module aussi -->
+<script type="module" src="app.js"></script>
+	
 </body>
 </html>
