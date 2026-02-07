@@ -4,6 +4,7 @@ console.log("app.js chargé ✅");
 const loginBtn = document.getElementById('loginBtn');
 const logoutBtn = document.getElementById('logoutBtn');
 const userLabel = document.getElementById('userLabel');
+const userAvatar = document.getElementById('userAvatar');
 
 let currentUser = null; 
 
@@ -12,7 +13,7 @@ function initAuth() {
 
   if (!fb) {
     console.warn("Firebase pas encore prêt…");
-    if (userLabel) userLabel.textContent = "mode local";
+    if (userLabel) userLabel.textContent = "Invité";
     return false;
   }
 
@@ -55,15 +56,29 @@ function initAuth() {
   };
 
   onAuthStateChanged(auth, async (user) => {
-    currentUser = user || null;
+  currentUser = user || null;
 
-    loginBtn.style.display = user ? 'none' : 'inline-flex';
-    logoutBtn.style.display = user ? 'inline-flex' : 'none';
-    userLabel.textContent = user ? user.email : 'mode local';
+  loginBtn.style.display = user ? 'none' : 'inline-flex';
+  logoutBtn.style.display = user ? 'inline-flex' : 'none';
 
-    await loadTasksFromCloudOrLocal();
-    renderAll();
-  });
+  if (user) {
+    const fullName = user.displayName || '';
+    const firstName = fullName.split(' ')[0];
+
+    userLabel.textContent = firstName || user.email;
+
+    if (user.photoURL && userAvatar) {
+      userAvatar.src = user.photoURL;
+      userAvatar.hidden = false;
+    }
+  } else {
+    userLabel.textContent = 'Invité';
+    if (userAvatar) userAvatar.hidden = true;
+  }
+
+  await loadTasksFromCloudOrLocal();
+  renderAll();
+});
 
   return true;
 }
