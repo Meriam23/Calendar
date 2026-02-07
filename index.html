@@ -141,6 +141,8 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-analytics.js";
+
   import {
     getAuth,
     GoogleAuthProvider,
@@ -160,10 +162,10 @@
     measurementId: "G-KJPJ8MHJC6"
   };
 
-  // Init Firebase
-  initializeApp(firebaseConfig);
+  const app = initializeApp(firebaseConfig);
+  getAnalytics(app);
 
-  // Expose pour app.js
+  // IMPORTANT: on expose les fonctions pour app.js
   window._fb = {
     getAuth,
     GoogleAuthProvider,
