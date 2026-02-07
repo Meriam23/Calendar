@@ -759,3 +759,34 @@ input:focus, select:focus{
   margin-left: 8px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
+
+
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* zone auth à droite */
+.auth-zone {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* texte bienvenue */
+.userLabel {
+  font-size: 0.9rem;
+  opacity: 0.85;
+  white-space: nowrap;
+}
+
+/* avatar */
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
