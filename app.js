@@ -512,7 +512,7 @@ function renderList() {
     return; // ✅ IMPORTANT
   }
 
-  // ✅ Cas "il y a des tâches"
+  // Cas "il y a des tâches"
   for (const t of list) {
     const li = document.createElement('li');
     li.className = `taskCard${t.done ? ' isDone' : ''}`;
@@ -547,46 +547,50 @@ function renderList() {
     }
 
     const actions = document.createElement('div');
-    actions.className = 'taskActions';
+actions.className = 'taskActions';
 
-    const doneBtn = document.createElement('button');
-    doneBtn.type = 'button';
-    doneBtn.className = 'smallBtn done';
-    doneBtn.textContent = t.done ? 'Undone' : 'Done';
-    doneBtn.addEventListener('click', async () => {
-    await toggleDone(t.id);
-    });
+const doneBtn = document.createElement('button');
+doneBtn.type = 'button';
+doneBtn.className = 'smallBtn done';
+doneBtn.textContent = t.done ? 'Undone' : 'Done';
 
-    delBtn.addEventListener('click', async () => {
-    await deleteTask(t.id);
-    showToast('Tâche supprimée');
-    });
+doneBtn.addEventListener('click', async () => {
+  await toggleDone(t.id);
 
-    const goBtn = document.createElement('button');
-    goBtn.type = 'button';
-    goBtn.className = 'smallBtn';
-    goBtn.textContent = 'Voir';
-    goBtn.addEventListener('click', () => {
-      const d = parseYyyyMmDd(t.date);
-      current = new Date(d.getFullYear(), d.getMonth(), 1);
-      setView('calendar');
-      renderAll();
-      showToast('Calendrier positionné');
-    });
+  // si pas connecté, on n'a pas de onSnapshot => on re-render manuellement
+  if (!currentUser) renderAll();
+});
 
-    const delBtn = document.createElement('button');
-    delBtn.type = 'button';
-    delBtn.className = 'smallBtn';
-    delBtn.textContent = 'Suppr.';
-    delBtn.addEventListener('click', () => {
-      deleteTask(t.id);
-      renderAll();
-      showToast('Tâche supprimée');
-    });
+const goBtn = document.createElement('button');
+goBtn.type = 'button';
+goBtn.className = 'smallBtn';
+goBtn.textContent = 'Voir';
+goBtn.addEventListener('click', () => {
+  const d = parseYyyyMmDd(t.date);
+  current = new Date(d.getFullYear(), d.getMonth(), 1);
+  setView('calendar');
+  renderAll();
+  showToast('Calendrier positionné');
+});
 
-    actions.appendChild(doneBtn);
-    actions.appendChild(goBtn);
-    actions.appendChild(delBtn);
+const delBtn = document.createElement('button');
+delBtn.type = 'button';
+delBtn.className = 'smallBtn';
+delBtn.textContent = 'Suppr.';
+
+delBtn.addEventListener('click', async () => {
+  await deleteTask(t.id);
+  showToast('Tâche supprimée');
+
+  // si pas connecté, on n'a pas de onSnapshot => on re-render manuellement
+  if (!currentUser) renderAll();
+});
+
+actions.appendChild(doneBtn);
+actions.appendChild(goBtn);
+actions.appendChild(delBtn);
+
+
 
     li.appendChild(left);
     li.appendChild(actions);
