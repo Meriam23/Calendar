@@ -583,13 +583,13 @@ goBtn.addEventListener('click', () => {
   current = new Date(d.getFullYear(), d.getMonth(), 1);
   setView('calendar');
   renderAll();
-  showToast('Calendrier positionné');
+  showToast('🗓️');
 });
 
 const delBtn = document.createElement('button');
 delBtn.type = 'button';
 delBtn.className = 'smallBtn';
-delBtn.textContent = 'Suppr.';
+delBtn.textContent = '🗑️';
 
 delBtn.addEventListener('click', async () => {
   await deleteTask(t.id);
