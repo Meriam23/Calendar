@@ -61,26 +61,27 @@ function initAuth() {
   onAuthStateChanged(auth, async (user) => {
   currentUser = user || null;
 
-  const userPhoto = document.getElementById('userPhoto');
-
   loginBtn.style.display = user ? 'none' : 'inline-flex';
   logoutBtn.style.display = user ? 'inline-flex' : 'none';
   userLabel.textContent = user ? (user.displayName || user.email) : 'Invité';
 
-  // ✅ Avatar
-  if (user && userPhoto && user.photoURL) {
-    userPhoto.src = user.photoURL;
-    userPhoto.alt = user.displayName || 'Photo de profil';
-    userPhoto.style.display = 'inline-block';
-  } else if (userPhoto) {
-    userPhoto.style.display = 'none';
-    userPhoto.removeAttribute('src');
+  // ✅ AVATAR
+  if (user && userAvatar) {
+    if (user.photoURL) {
+      userAvatar.src = user.photoURL;
+      userAvatar.hidden = false;
+    } else {
+      userAvatar.hidden = true;
+      userAvatar.removeAttribute('src');
+    }
+  } else if (userAvatar) {
+    userAvatar.hidden = true;
+    userAvatar.removeAttribute('src');
   }
 
   if (user) {
-    startRealtimeSync(user.uid); // ✅ live sync
+    startRealtimeSync(user.uid); // live sync
   } else {
-    // logout: stop live sync
     if (typeof unsubscribeTasks === "function") unsubscribeTasks();
     unsubscribeTasks = null;
 
@@ -149,7 +150,7 @@ function setFormHidden(hidden){
   // Si le bouton existe, on met à jour son texte
   if (toggleFormBtn){
     toggleFormBtn.setAttribute('aria-pressed', String(!hidden));
-    toggleFormBtn.textContent = hidden ? 'New task' : 'Hide';
+    toggleFormBtn.textContent = hidden ? 'Ajouter' : 'Réduire';
   }
 }
 
@@ -564,7 +565,7 @@ actions.className = 'taskActions';
 const doneBtn = document.createElement('button');
 doneBtn.type = 'button';
 doneBtn.className = 'smallBtn done';
-doneBtn.textContent = t.done ? 'Undone' : 'Done';
+doneBtn.textContent = t.done ? '❌' : '✅';
 
 doneBtn.addEventListener('click', async () => {
   await toggleDone(t.id);
