@@ -61,9 +61,21 @@ function initAuth() {
   onAuthStateChanged(auth, async (user) => {
   currentUser = user || null;
 
+  const userPhoto = document.getElementById('userPhoto');
+
   loginBtn.style.display = user ? 'none' : 'inline-flex';
   logoutBtn.style.display = user ? 'inline-flex' : 'none';
   userLabel.textContent = user ? (user.displayName || user.email) : 'Invité';
+
+  // ✅ Avatar
+  if (user && userPhoto && user.photoURL) {
+    userPhoto.src = user.photoURL;
+    userPhoto.alt = user.displayName || 'Photo de profil';
+    userPhoto.style.display = 'inline-block';
+  } else if (userPhoto) {
+    userPhoto.style.display = 'none';
+    userPhoto.removeAttribute('src');
+  }
 
   if (user) {
     startRealtimeSync(user.uid); // ✅ live sync
