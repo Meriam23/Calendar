@@ -159,6 +159,7 @@ input:focus, select:focus{
   text-align: center;
   font-weight: 750;
   letter-spacing: 0.2px;
+  text-transform: capitalize;
 }
 .iconBtn{
   width: 40px;
